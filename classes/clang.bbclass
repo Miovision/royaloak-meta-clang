@@ -9,8 +9,6 @@ RANLIB_toolchain-clang = "${HOST_PREFIX}llvm-ranlib"
 AR_toolchain-clang = "${HOST_PREFIX}llvm-ar"
 NM_toolchain-clang = "${HOST_PREFIX}llvm-nm"
 
-export CLANG_TIDY_toolchain-clang = "${HOST_PREFIX}clang-tidy"
-
 COMPILER_RT ??= "${@bb.utils.contains("RUNTIME", "llvm", "-rtlib=compiler-rt ${UNWINDLIB}", "", d)}"
 COMPILER_RT_powerpc = "--rtlib=libgcc ${UNWINDLIB}"
 COMPILER_RT_armeb = "--rtlib=libgcc ${UNWINDLIB}"
@@ -98,7 +96,7 @@ BASE_DEFAULT_DEPS_toolchain-clang_class-target = "${@clang_base_deps(d)}"
 
 cmake_do_generate_toolchain_file_append_toolchain-clang () {
     cat >> ${WORKDIR}/toolchain.cmake <<EOF
-set( CMAKE_CLANG_TIDY ${CLANG_TIDY} )
+set( CMAKE_CLANG_TIDY ${HOST_PREFIX}clang-tidy )
 EOF
 }
 
